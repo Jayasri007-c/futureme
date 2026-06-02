@@ -34,7 +34,6 @@ async function generateFutureMe(event) {
     const result = document.getElementById('resultState');
     const submitBtn = document.getElementById('submitBtn');
 
-    // Reset UI states
     errorBanner.style.display = 'none';
 
     if (!name || !age || !goal || !struggle || !timeline || !tone) {
@@ -42,11 +41,9 @@ async function generateFutureMe(event) {
         return;
     }
 
-    // Disable button + inputs
     submitBtn.disabled = true;
     toggleFormInputs(form, true);
 
-    // Show loading
     form.style.display = 'none';
     loading.style.display = 'flex';
 
@@ -55,15 +52,13 @@ async function generateFutureMe(event) {
 
     try {
 
-        // NETLIFY FUNCTION CALL
-        const response = await fetch('/.netlify/functions/api', {
+        const response = await fetch('/.netlify/functions/api/generate-futureme', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
 
             body: JSON.stringify({
-                action: "generate",
                 name,
                 age,
                 goal,
@@ -73,7 +68,6 @@ async function generateFutureMe(event) {
             })
         });
 
-        // SAFER RESPONSE HANDLING
         const text = await response.text();
 
         let resData;
@@ -92,7 +86,6 @@ async function generateFutureMe(event) {
             );
         }
 
-        // Save profile
         currentProfile = {
             name,
             age,
@@ -104,7 +97,6 @@ async function generateFutureMe(event) {
 
         chatHistory = [];
 
-        // Populate UI
         const data = resData.data;
 
         document.getElementById('dynMessage').innerText =
@@ -122,7 +114,6 @@ async function generateFutureMe(event) {
         document.getElementById('dynMantra').innerText =
             data.mantra || "";
 
-        // Moves
         const movesList = document.getElementById('dynMoves');
 
         movesList.innerHTML = "";
@@ -135,7 +126,6 @@ async function generateFutureMe(event) {
             movesList.appendChild(li);
         });
 
-        // Chat placeholder
         const chatPlaceholder =
             document.getElementById('chatPlaceholder');
 
@@ -145,7 +135,6 @@ async function generateFutureMe(event) {
                 "I am here, ${name}. Ask me anything about our trajectory."`;
         }
 
-        // Enable chat
         const chatInput =
             document.getElementById('chatInput');
 
@@ -158,7 +147,6 @@ async function generateFutureMe(event) {
         chatInput.placeholder =
             `Ask your FutureMe (${tone}) anything...`;
 
-        // Show result
         loading.style.display = 'none';
         result.style.display = 'block';
 
@@ -196,16 +184,13 @@ async function sendChatMessage(event) {
 
     if (!question || !currentProfile) return;
 
-    // User bubble
     appendChatBubble('user', question);
 
-    // Reset input
     chatInput.value = "";
 
     chatInput.disabled = true;
     chatSendBtn.disabled = true;
 
-    // Remove placeholder
     const chatPlaceholder =
         document.getElementById('chatPlaceholder');
 
@@ -213,28 +198,24 @@ async function sendChatMessage(event) {
         chatPlaceholder.remove();
     }
 
-    // Typing bubble
     const typingIndicator =
         appendChatBubble('future-typing', '');
 
     try {
 
-        // NETLIFY FUNCTION CALL
-        const response = await fetch('/.netlify/functions/api', {
+        const response = await fetch('/.netlify/functions/api/chat-futureme', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
 
             body: JSON.stringify({
-                action: "chat",
                 userProfile: currentProfile,
                 chatHistory: chatHistory,
                 question: question
             })
         });
 
-        // SAFER RESPONSE
         const text = await response.text();
 
         let resData;
@@ -246,7 +227,6 @@ async function sendChatMessage(event) {
             throw new Error("Server returned invalid response.");
         }
 
-        // Remove typing indicator
         typingIndicator.remove();
 
         if (!response.ok || !resData.success) {
@@ -258,10 +238,8 @@ async function sendChatMessage(event) {
 
         const reply = resData.reply;
 
-        // Future bubble
         appendChatBubble('future', reply);
 
-        // Save history
         chatHistory.push({
             role: 'user',
             message: question
