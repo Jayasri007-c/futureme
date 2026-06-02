@@ -1,0 +1,17 @@
+{
+  "name": "futureme",
+  "version": "1.0.0",
+  "description": "FutureMe AI reflection full-stack app",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-fetch": "^2.7.0",
+    "serverless-http": "^3.2.0"
+  }
+}

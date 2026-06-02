@@ -1,0 +1,24 @@
+{
+  "name": "futureme-backend",
+  "version": "1.0.0",
+  "description": "Backend API server for FutureMe AI-powered reflection application using Express and Gemini API.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-fetch": "^2.7.0"
+  },
+  "keywords": [
+    "futureme",
+    "gemini",
+    "ai",
+    "reflection"
+  ],
+  "author": "Nitish's Founder Labs",
+  "license": "ISC"
+}
