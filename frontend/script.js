@@ -52,7 +52,7 @@ async function generateFutureMe(event) {
 
     try {
 
-        const response = await fetch('/.netlify/functions/api/generate-futureme', {
+        const response = await fetch('/.netlify/functions/api/api/generate-futureme', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -203,7 +203,7 @@ async function sendChatMessage(event) {
 
     try {
 
-        const response = await fetch('/.netlify/functions/api/chat-futureme', {
+        const response = await fetch('/.netlify/functions/api/api/chat-futureme', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
